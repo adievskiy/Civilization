@@ -80,6 +80,8 @@ if player.nation == 'Американцы':
 
     elif chosen_person == 'builder':
         print("Вы получаете Великого строителя. Он добавляет Вам +1 к золотым монетам и +2 к промышленности")
+        # Размещаем Великого человека
+        # Проверяем ввод по оси x
         while True:
             try:
                 x_position = int(input("Выберем где и как поставить по оси x: "))
@@ -89,7 +91,7 @@ if player.nation == 'Американцы':
                 break
             except ValueError:
                 print("Введите корректное число")
-
+        # Проверяем ввод по оси y и создаем экземпляр в builder[0]
         while True:
             try:
                 y_position = int(input("Выберем где и как поставить по оси y: "))
