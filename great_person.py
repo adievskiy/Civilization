@@ -15,6 +15,7 @@ class Builder:
 
     def __init__(self, x_position, y_position):
         self.coin_points = 1
+        self.production_points = 2
         self.position = [x_position, y_position]
 
     def chooses_builder(self, person):
