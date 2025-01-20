@@ -104,6 +104,7 @@ if player.nation == 'Американцы':
                 builder.append(Builder(x_position, y_position))
                 player.choose_builder(builder[0])
                 player.capital.production_points += builder[0].production_points
+                player.coin_points += builder[0].coin_points
                 break
 
             except ValueError:

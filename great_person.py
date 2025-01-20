@@ -18,10 +18,6 @@ class Builder:
         self.production_points = 2
         self.position = [x_position, y_position]
 
-    def chooses_builder(self, person):
-        person.builder_count += 1
-        person.coin_points += self.coin_points
-
 class General:
 
     def __init__(self):
