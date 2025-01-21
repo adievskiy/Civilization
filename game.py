@@ -11,7 +11,7 @@ builder = []
 general = []
 humanist = []
 industrialist = []
-scientist = [Scientist(), Scientist(), Scientist()]
+scientist = []
 
 # Ввод имени
 player_name = input("Введите имя: ")
@@ -72,8 +72,8 @@ if player.nation == 'Американцы':
 
         # Случайный выбор оператора
     person_list = ('painter', 'builder', 'general', 'humanist', 'industrialist', 'scientist')
-        # chosen_person = random.choice(person_list)
-    chosen_person = 'builder'
+    chosen_person = random.choice(person_list)
+
     if chosen_person == 'painter':
         player.choose_painter(painter[0])
         print('Вы получаете Великого художника. Он добавляет Вам +1 к торговле и +2 к культуре')
