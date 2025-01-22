@@ -1,11 +1,14 @@
 import random
 
-from great_person import Painter, Builder, General, Humanist, Industrialist, Scientist
-from player import Player
+import board
+import buildings
+import great_person
+import pers
+from pers import Player
 from city import City
 
 players_colors = ('Красный', 'Зеленый', 'Синий', 'Желтый')
-nations_list = ('Китайцы', 'Русские', 'Немцы', 'Американцы', 'Египтяне')
+nations_list = ('Американцы', 'Египтяне', 'Китайцы', 'Немцы', 'Римляне', 'Русские')
 painter = []
 builder = []
 general = []
@@ -40,91 +43,96 @@ while True:
     else:
         print("Такой нации нет в списке. Попробуйте снова.")
 
-# Создание игрока
+# Создание игрока и стартового поля
 player = Player(player_name, player_color, player_nation)
+start = board.create_start_square(player_nation)
 
-# Выбор стартовой позиции столицы
+# Размещение столицы
 while True:
     try:
         # Запрос позиции по горизонтали
-        x_position = int(input("Выберите стартовую позицию по горизонтали (1-4): "))
-        if x_position not in range(1, 5):
-            print("Введите цифру от 1 до 4")
+        x_position = int(input("Выберите стартовую позицию по горизонтали (0-3): "))
+        if x_position not in range(0, 4):
+            print("Введите цифру от 0 до 3")
             continue
 
         # Запрос позиции по вертикали
-        y_position = int(input("Выберите стартовую позицию по вертикали (1-4): "))
-        if y_position not in range(1, 5):
-            print("Введите цифру от 1 до 4")
+        y_position = int(input("Выберите стартовую позицию по вертикали (0-3): "))
+        if y_position not in range(0, 4):
+            print("Введите цифру от 0 до 3")
             continue
 
         player.capital = City(True, x_position, y_position)
+        board.place_city(start, x_position, y_position)
+
+        for coord, data in sorted(start.items()):
+            print(f"Клетка {coord}: {data}")
         break
 
     except ValueError:
         print("Введите корректное число")
 
 # Присвоение бонусов нации
-# Американцам надо добавить размещение человека на поле
-"""////////// Американцы не дописаны //////////"""
+print("Стартовые бонусы Вашей нации:")
 if player.nation == 'Американцы':
-    print("Стартовые бонусы Вашей нации:")
 
         # Случайный выбор оператора
     person_list = ('painter', 'builder', 'general', 'humanist', 'industrialist', 'scientist')
-    chosen_person = random.choice(person_list)
+    random_person = random.choice(person_list)
 
-    if chosen_person == 'painter':
-        player.choose_painter(painter[0])
+    if random_person == 'painter':
         print('Вы получаете Великого художника. Он добавляет Вам +1 к торговле и +2 к культуре')
+        great_person.stand_and_create_great(player, player.capital, painter, len(painter), random_person)
+        pers.player_info(player)
 
-    elif chosen_person == 'builder':
+    elif random_person == 'builder':
         print("Вы получаете Великого строителя. Он добавляет Вам +1 к золотым монетам и +2 к промышленности")
-        # Размещаем Великого человека
-        # Проверяем ввод по оси x
-        while True:
-            try:
-                x_position = int(input("Выберем где и как поставить по оси x: "))
-                if x_position < 0 or (abs(x_position - player.capital.position[0]) > 1):
-                    print("Вы можете поставить только рядом со столицей")
-                    continue
-                break
-            except ValueError:
-                print("Введите корректное число")
-        # Проверяем ввод по оси y и создаем экземпляр в builder[0]
-        while True:
-            try:
-                y_position = int(input("Выберем где и как поставить по оси y: "))
-                if x_position == player.capital.position[0] and y_position == x_position:
-                    print("Здесь стоит столица!!!")
-                    continue
+        great_person.stand_and_create_great(player, player.capital, builder, len(builder), random_person)
+        pers.player_info(player)
 
-                if y_position < 0 or abs(y_position - player.capital.position[1]) > 1:
-                    print("Вы можете поставить только рядом со столицей")
-                    continue
-
-                builder.append(Builder(x_position, y_position))
-                player.choose_builder(builder[0])
-                player.capital.production_points += builder[0].production_points
-                player.coin_points += builder[0].coin_points
-                break
-
-            except ValueError:
-                print("Введите корректное число")
-
-    elif chosen_person == 'general':
-        player.choose_general(general[0])
+    elif random_person == 'general':
         print("Вы получаете Великого генерала. Он добавляет Вам +1 к боевой силе")
+        great_person.stand_and_create_great(player, player.capital, general, len(general), random_person)
+        pers.player_info(player)
 
-    elif chosen_person == 'humanist':
-        player.choose_humanist(humanist[0])
+    elif random_person == 'humanist':
         print(
                 "Вы получаете Великого гуманиста. Он добавляет Вам +1 к золотым монетам, +1 к промышленности, +1 к торговле и +1 к культуре")
+        great_person.stand_and_create_great(player, player.capital, humanist, len(humanist), random_person)
+        pers.player_info(player)
 
-    elif chosen_person == 'industrialist':
-        player.choose_industrialist(industrialist[0])
+    elif random_person == 'industrialist':
         print("Вы получаете Великого промышленника. Он добавляет Вам +1 к золотым монетам, и +2 к культуре")
+        great_person.stand_and_create_great(player, player.capital, industrialist, len(industrialist), random_person)
+        pers.player_info(player)
 
-    elif chosen_person == 'scientist':
-        player.choose_scientist(scientist[0])
+    elif random_person == 'scientist':
         print("Вы получаете Великого ученого. Он добавляет Вам +1 к промышленности и +2 к торговле")
+        great_person.stand_and_create_great(player, player.capital, scientist, len(scientist), random_person)
+        pers.player_info(player)
+elif player.nation == 'Египтяне':
+
+    random_wonder = random.choice(buildings.ancient_wonders)
+
+    if random_wonder == 'HangingGardens':
+        print("Вы получаете Висячие Сады. В начале хода бесплатно создайте фишку. Она входит в игру на квадрате с Висячими садами.")
+
+    if random_wonder == 'Colossus':
+        print("Вы получаете Колосс. В начале хода получите +3 торговли")
+
+    if random_wonder == 'Oracle':
+        print("Вы получаете Оракула. В битве ваш противник сразу раскрывает карточки отрядов, с которыми вступает в битву.")
+
+    if random_wonder == 'Stonehenge':
+        print("Вы получаете Стоунхедж. В фазе старта получите +1 к культуре.")
+elif player.nation == 'Китайцы':
+    player.capital_wall = True
+elif player.nation == 'Немцы':
+    print("Вы получили двух дополнительных пехотинцев")
+    player.regular_army['infantry'].extend([random.randint(1, 3), random.randint(1, 3)])
+    pers.army_info(player)
+elif player.nation == 'Римляне':
+    player.government = 'Республика'
+elif player.nation == 'Русские':
+    player.army_count += 1
+    player.government = 'Коммунизм'
