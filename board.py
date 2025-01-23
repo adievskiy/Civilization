@@ -422,6 +422,7 @@ def create_start_square(player_nation):
 def place_city(game_field, x, y):
     if (x, y) in game_field:
         game_field[(x, y)]["город"] = True
+        game_field[(x, y)]["production"], game_field[(x, y)]["trade"], game_field[(x, y)]["coin"], game_field[(x, y)]["culture"], game_field[(x, y)]["resources"] = 0, 0, 0, 0, None
         print("Город размещен в клетке ({}, {})."
               .format(x, y))
     else:
