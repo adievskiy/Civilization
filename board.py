@@ -428,22 +428,22 @@ def place_city(game_field, x, y):
         print("Клетка ({}, {}) не существует на поле."
               .format(x, y))
 
-def collect_resources(game_field, x, y):
-
-    # Список всех возможных соседних клеток (8 направлений)
-    neighbors_square = [
-        (x - 1, y - 1), (x - 1, y), (x - 1, y + 1),
-        (x, y - 1),                 (x, y + 1),
-        (x + 1, y - 1), (x + 1, y), (x + 1, y + 1),
-    ]
-
-    # Собираем ресурсы с соседних клеток
-    resources_collected = {}
-    for nx, ny in neighbors_square:
-        if (nx, ny) in game_field and "ресурсы" in game_field[(nx, ny)]:
-            resource = game_field[(nx, ny)]["ресурсы"]
-            if resource:
-                if resource in resources_collected:
-                    resources_collected[resource] += 1
-                else:
-                    resources_collected[resource] = 1
+# def collect_resources(player, game_field, x, y):
+#
+#     # Список всех возможных соседних клеток (8 направлений)
+#     neighbors_square = [
+#         (x - 1, y - 1), (x - 1, y), (x - 1, y + 1),
+#         (x, y - 1),                 (x, y + 1),
+#         (x + 1, y - 1), (x + 1, y), (x + 1, y + 1),
+#     ]
+#
+#     # Собираем ресурсы с соседних клеток
+#     resources_collected = {}
+#     for nx, ny in neighbors_square:
+#         if (nx, ny) in game_field and "ресурсы" in game_field[(nx, ny)]:
+#             resource = game_field[(nx, ny)]["ресурсы"]
+#             if resource:
+#                 if resource in resources_collected:
+#                     resources_collected[resource] += 1
+#                 else:
+#                     resources_collected[resource] = 1
